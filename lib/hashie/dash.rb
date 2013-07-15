@@ -138,7 +138,11 @@ module Hashie
 
       def initialize_attributes(attributes)
         attributes.each_pair do |att, value|
-          self[att] = value
+	  begin
+            self[att] = value
+	  rescue NoMethodError => e
+	    puts "Warning: property '#{att}' is not defined for '#{self.class}'."
+	  end
         end if attributes
       end
 
